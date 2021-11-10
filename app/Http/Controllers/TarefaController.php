@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class TarefaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,21 +19,8 @@ class TarefaController extends Controller
      */
     public function index()
     {
-         /*
-        if(auth()->check())
-        {
-            return "Logado ".auth()->user()->email;
-        } else {
-            return "Não logado";
-        } */
-        if(Auth::check())
-        {
-            return "Logado ".Auth::user()->email;
-        } else {
-            return "Não logado";
-        }
-
-
+        $userEmail = Auth::user()->email;
+        return "Logado: ".$userEmail;
     }
 
     /**

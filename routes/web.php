@@ -19,16 +19,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes([
+    'verify' => true
+]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+    ->name('home')
+    ->middleware('verified');
 
 Route::resource('tarefa', 'App\Http\Controllers\TarefaController', [
     'except' => ['']
-]);
+])->middleware('verified');
 
 Route::get('mensagem-test', function () {
-    //return new MensagemTesteMail();
-    Mail::to('thiagodons@gmail.com')->send(new MensagemTesteMail());
-    return 'E-mail enviado!';
+    return new MensagemTesteMail();
+    //Mail::to('thiagodons@gmail.com')->send(new MensagemTesteMail());
+    //return 'E-mail enviado!';
 });
